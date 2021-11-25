@@ -1,5 +1,5 @@
 {
-    "sketch": "test_code.ino",
+    "sketch": "3S_Bearing_the_load.ino",
     "board": "arduino:sam:arduino_due_x_dbg",
     "port": "COM3"
 }
