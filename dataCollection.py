@@ -1,41 +1,43 @@
 #Define how long the program will run
 #Put output from Arduino into csv
 
-from _typeshed import WriteableBuffer
+import time
 import serial
 import csv
-import time
-import schedule
+import datetime
 
-# TODO Make sure you test with you own Arduino(Uno or DUE) by generating some random output test if you program can work efficiently
 
-def func():
-    arduino_port = "COM3" #TODO Should be taken as an argument
-    baud = 115200 #TODO Should be taken as an argument
-    fileName = "data.csv" #TODO File name should be named by the time it generats otherwise it may overwrite the original file(e.g sensor_output_2021_11_26_15_48_00.csv)
-                          #TODO You should also check if the file already exist
+def countRow(filename):
+    file = open(filename, 'r')
+    reader = csv.reader(file)
+    lines = len(list(reader))
+    return int(lines)
 
-    ser = serial.Serial(arduino_port, baud)
-    ser.flushInput()
 
+def readData(filename, port, baud, hour, minute, second):
+    arduino = serial.Serial(port, baud)
+    runTime = time.time() + hour*3600 +minute*60 +second
+    try:
+        file = open(filename)
+    except IOError:
+        file = open(filename, "a+", newline='')
+        csv_writer = csv.writer(file)
     while True:
-        ser_data = ser.readline().decode().strip().split(',')
-    
-        #convert to int
-        new_ser_data = [int(i) for i in ser_data] # TODO: Temperature data is in float format 
-    
-        with open(fileName, "a", newline='') as f:
-            write = csv.writer(f, delimiter = ",")
-            write.writerow([new_ser_data[0], new_ser_data[1], new_ser_data[2]]) 
-            # TODO: 1)There are 6 sensors in total
-            #       2)Be aware that there might be some dummy data or wrong data, make sure you filter it out
-            f.close()
-    #TODO Count the amount of data collected(How many rows) to check if it matches the sampling frequency 
+        if round(runTime - time.time()) == 0:
+            break
+        data = arduino.readline()[:-2].decode()
+        data = data.split(',')  # use coma to seperate the values
+        if data:
+            csv_writer.writerow(data)
+            print(data)
+            file.flush()
 
-schedule.every(10).second.do(func) #TODO If I understand correctly, your program runs every 10 seconds. 
-                                   #The requirement is that the program will run for a custom time(e.g 10 seconds)
-                                   #Which it should also be taken as an argument
 
-while True:
-    schedule.run_pending()
+now = datetime.datetime.now()
+date_string = now.strftime("%d_%m_%Y_%H_%M_%S")
+csv_file = "sensor_output_" + date_string + '.csv'
+readData(csv_file, 'COM3', 115200, 0, 0, 5)
 
+
+rows = countRow(csv_file)
+print("Total values in file:", rows)
