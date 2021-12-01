@@ -6,8 +6,14 @@ import serial
 import csv
 import datetime
 
+<<<<<<< HEAD
 #Already test with Uno
 #function to count the total row in the csv file
+=======
+#connect to arduino
+#collect output from arduino
+#write data into the csv file
+>>>>>>> 7643664e967025659fa089740289ea85c63d87db
 def countRow(filename):
     file = open(filename, 'r')
     reader = csv.reader(file)
@@ -34,6 +40,10 @@ def readData(filename, port, baud, hour, minute, second):
         #acc1 = int(dataarray[1])
         #mic1 = int(dataarray[3])
         data = data.split(',')  # use coma to seperate the values
+        #datararray = data.decode().split(',')
+        #temp = float(dataarray[0])
+        #acc1 = int(dataarray[1])
+        #mic1 = int(dataarray[3``])
         if data:
         #if data & len(data) == 6:
             #csv_writer.writerow([temp, acc1, mic1])
