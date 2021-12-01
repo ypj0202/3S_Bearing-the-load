@@ -27,6 +27,10 @@ def readData(filename, port, baud, hour, minute, second):
             break
         data = arduino.readline()[:-2].decode()
         data = data.split(',')  # use coma to seperate the values
+        #datararray = data.decode().split(',')
+        #temp = float(dataarray[0])
+        #acc1 = int(dataarray[1])
+        #mic1 = int(dataarray[3``])
         if data:
         #if data & len(data) == 6:
             csv_writer.writerow(data)
