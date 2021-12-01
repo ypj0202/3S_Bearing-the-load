@@ -6,14 +6,7 @@ import serial
 import csv
 import datetime
 
-<<<<<<< HEAD
-#Already test with Uno
 #function to count the total row in the csv file
-=======
-#connect to arduino
-#collect output from arduino
-#write data into the csv file
->>>>>>> 7643664e967025659fa089740289ea85c63d87db
 def countRow(filename):
     file = open(filename, 'r')
     reader = csv.reader(file)
