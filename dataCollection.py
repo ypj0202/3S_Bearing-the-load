@@ -6,7 +6,9 @@ import serial
 import csv
 import datetime
 
-
+#connect to arduino
+#collect output from arduino
+#write data into the csv file
 def countRow(filename):
     file = open(filename, 'r')
     reader = csv.reader(file)
@@ -33,6 +35,7 @@ def readData(filename, port, baud, hour, minute, second):
         #mic1 = int(dataarray[3``])
         if data:
         #if data & len(data) == 6:
+            #csv_writer.writerow([temp, acc1, mic1])
             csv_writer.writerow(data)
             print(data)
             file.flush()
@@ -43,6 +46,6 @@ date_string = now.strftime("%d_%m_%Y_%H_%M_%S")
 csv_file = "sensor_output_" + date_string + '.csv'
 readData(csv_file, 'COM3', 115200, 0, 0, 5)
 
-
+#count the total row from csv file at the end
 rows = countRow(csv_file)
 print("Total values in file:", rows)
