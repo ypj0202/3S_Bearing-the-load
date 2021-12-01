@@ -27,11 +27,7 @@ def readData(filename, port, baud, hour, minute, second):
     while True:
         if round(runTime - time.time()) == 0: 
             break
-        data = arduino.readline()#[:-2].decode()
-        #datararray = data.decode().split(',')
-        #temp = float(dataarray[0])
-        #acc1 = int(dataarray[1])
-        #mic1 = int(dataarray[3])
+        data = arduino.readline()[:-2].decode()
         data = data.split(',')  # use coma to seperate the values
         #datararray = data.decode().split(',')
         #temp = float(dataarray[0])
