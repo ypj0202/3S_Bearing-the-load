@@ -11,24 +11,14 @@ float logR2, R2, temp, temp_C;
 float c1 = 1.129252142e-03, c2 = 2.341083183e-04, c3 = 0.8773267909e-07;
 boolean conversionCompleted;
 //Configuration
-<<<<<<< HEAD
 int sample_frequency = 20000;
 int prescaler_value = 2;
 int TC_RC_val = 84000000 / prescaler_value / sample_frequency; //Warning!!!!
-=======
-int sample_frequency = 3000;
-int prescaler_value = 32;
-int TC_RC_val = 84000000 / prescaler_value / sample_frequency;
->>>>>>> 2f352f5e0c64ba8fd1b5c0e9e046a71fa5f190e2
 
 void setup()
 {
   // open a serial connection
-<<<<<<< HEAD
   SerialUSB.begin(0);
-=======
-  Serial.begin(115200);
->>>>>>> 2f352f5e0c64ba8fd1b5c0e9e046a71fa5f190e2
   // Timer config
   // Internel clock selection MCK/2 MCK/8 MCK/32 MCK/128
   PMC->PMC_PCER0 |= PMC_PCER0_PID29;                     // TC2 power ON : Timer Counter 0 channel 2 is TC2
@@ -74,7 +64,6 @@ void loop()
 {
   if (conversionCompleted)
   {
-<<<<<<< HEAD
     char buffer[50];
     // int toSend[] = {temperature_raw, microphone, accelerometer};
     // int array_size = sizeof(toSend)/sizeof(int);
@@ -102,19 +91,6 @@ void loop()
 
     
     SerialUSB.print("456,1023,1023\n");
-=======
-    //Steinhart–Hart equation Calculator https://www.thinksrs.com/downloads/programs/therm%20calc/ntccalibrator/ntccalculator.html
-    R2 = R1 * (1023.0 / (float)temperature_raw - 1.0);
-    logR2 = log(R2);
-    temp = (1.0 / (c1 + c2 * logR2 + c3 * logR2 * logR2 * logR2));
-    temp_C = temp - 273.15;
-    //Test Output
-    //Serial.println(accelerometer);
-    //Serial.println(microphone);
-    //Serial.print(temp_C);
-    //CSV Output
-    Serial.println(String(temp_C) + "," + String(microphone) + "," + String(accelerometer));
->>>>>>> 2f352f5e0c64ba8fd1b5c0e9e046a71fa5f190e2
     conversionCompleted = false;
   }
 }
