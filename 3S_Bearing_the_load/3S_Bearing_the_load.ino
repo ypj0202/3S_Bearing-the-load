@@ -6,6 +6,7 @@
 * Revision: 1.0 
 */
 int temperature_raw, accelerometer, microphone;
+uint16_t sensor_data[3];
 float R1 = 10000;
 float logR2, R2, temp, temp_C;
 float c1 = 1.129252142e-03, c2 = 2.341083183e-04, c3 = 0.8773267909e-07;
@@ -51,12 +52,16 @@ void ADC_Handler()
 {
   ADC->ADC_ISR;
   //Accelerometer
-  accelerometer = ADC->ADC_CDR[7]; 
+  //accelerometer = ADC->ADC_CDR[7]; 
+  sensor_data[0] = ADC->ADC_CDR[7];
+  
   //Temperature sensor
   //DataSheet https://www.farnell.com/datasheets/1756131.pdf
-  temperature_raw = ADC->ADC_CDR[6]; 
+ //temperature_raw = ADC->ADC_CDR[6]; 
+  sensor_data[1] = ADC->ADC_CDR[6];
   //Microphone
-  microphone = ADC->ADC_CDR[5]; 
+  //microphone = ADC->ADC_CDR[5]; 
+  sensor_data[2] = ADC->ADC_CDR[5];
   conversionCompleted = true;
 }
 
@@ -85,12 +90,14 @@ void loop()
    
 
     // SerialUSB.print(String(temperature_raw) + ',' + String(microphone) + ',' + String(accelerometer) + ',' + String(counter) + '\n');
-    // SerialUSB.print(buffer);
+    // SerialUSB.print(sensor_data[1]);
+    sensor_data[0] = 255;
+    sensor_data[2] = 256;
+    SerialUSB.write((uint8_t*)&sensor_data, 2*3);
 
-    // SerialUSB.write((uint8_t*)&buffer, 50);
 
     
-    SerialUSB.print("456,1023,1023\n");
+    // SerialUSB.print("456,1023,1023\n");
     conversionCompleted = false;
   }
 }
