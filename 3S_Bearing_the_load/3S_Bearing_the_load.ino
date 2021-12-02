@@ -20,13 +20,10 @@ boolean conversionCompleted;
 int sample_frequency = 20000;
 int prescaler_value = 2;
 int TC_RC_val = 84000000 / prescaler_value / sample_frequency; //Warning!!!!
-uint counter = 0;
 
 void setup()
 {
   // open a serial connection
-  // Serial.begin(115200);
-  // Serial.println("Test");
   SerialUSB.begin(0);
   // Timer config
   // Internel clock selection MCK/2 MCK/8 MCK/32 MCK/128
@@ -79,16 +76,33 @@ void loop()
 {
   if (conversionCompleted)
   {
-    // char buffer[30];
+    char buffer[50];
+    // int toSend[] = {temperature_raw, microphone, accelerometer};
+    // int array_size = sizeof(toSend)/sizeof(int);
+    // // char toSend[30];
+    // for (int i = 0; i < array_size; i++)
+    // {
+    //   sprintf(buffer + strlen(buffer), "%d", toSend[i]);
+    //   strcat(buffer, ",");
+    //   // sprintf(buffer + strlen(buffer), "%d", microphone);
+    // }
+    // strcat(buffer, "\n");
+  
     // sprintf(buffer, "%d", temperature_raw);
+    // strcat(buffer, ",");
+    // sprintf(buffer + strlen(buffer), "%d", microphone);
+    // strcat(buffer, ",");
+    // sprintf(buffer + strlen(buffer), "%d", accelerometer);
+    // strcat(buffer, "\n");
    
-
-    // TODO Convert int to char array and send via serial.print by not using String type since it is time consuming!
 
     // SerialUSB.print(String(temperature_raw) + ',' + String(microphone) + ',' + String(accelerometer) + ',' + String(counter) + '\n');
     // SerialUSB.print(buffer);
+
+    // SerialUSB.write((uint8_t*)&buffer, 50);
+
+    
     SerialUSB.print("456,1023,1023\n");
     conversionCompleted = false;
-    counter++;
   }
 }
