@@ -70,7 +70,7 @@ def readData(filename, port, duration, samplingRate):
 csv_file_string = "Sensor_output_" + datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S") + '.csv'
 try:
     print("[INFO] Program started\n[INFO] Port: " + "COM6" + " Duration: " + "1" + " second(s) Sampling rate: " + "20000" )
-    readData(csv_file_string, 'COM6', 1, 20000)
+    readData(csv_file_string, 'COM5', 1, 20000)
     # readData(csv_file, sys.argv[1],sys.argv[2], sys.argv[3])
     
 except Exception as e:
