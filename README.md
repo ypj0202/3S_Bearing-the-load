@@ -3,7 +3,7 @@
     3S_Bearing-the-load
   </h1>
     <h3 align="center">
-   Saxion Smart Solution Semester-069 Bearing the load.<br><br>
+   Saxion Smart Solution Semester<br>069 Bearing the load<br><br>
   </h3>
 
 <a href="https://github.com/ypj0202/3S_Bearing-the-load/pulls">
@@ -35,7 +35,7 @@
 > Build & Run
 - Clone the repository
 - Compile and upload the sketch on Arduino IDE
-- Run `dataCollection.py`<br>
-(Syntax: `python dataCollection.py [Port] [Duration]`)
+- Run `dataCollection-v3.py`<br>
+(Syntax: `python dataCollection-v3.py [Port] [Duration]`)
 <h2>Resources</h2>
 Arduino DUE dataSheet:<br> https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-11057-32-bit-Cortex-M3-Microcontroller-SAM3X-SAM3A_Datasheet.pdf
