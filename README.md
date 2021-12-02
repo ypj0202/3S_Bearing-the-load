@@ -26,14 +26,16 @@
    Last update: 02-12-2021
   </h4>
 <br>
-<h2>Configuration procedure</h2>
+
+
+## Configuration procedure
 > Prerequisites
 - Arduino IDE (Arduino DUE)
 - Python 3.10 incl. dependencies
 > Build & Run
 - Clone the repository
 - Compile and upload the sketch on Arduino IDE
-- Run dataCollection.py
+- Run `dataCollection.py`<br>
 (Syntax: `python dataCollection.py [Port] [Duration]`)
 <h2>Resources</h2>
 Arduino DUE dataSheet:<br> https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-11057-32-bit-Cortex-M3-Microcontroller-SAM3X-SAM3A_Datasheet.pdf
