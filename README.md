@@ -34,7 +34,7 @@
 - Python 3.10 incl. dependencies
 > Build & Run
 - Clone the repository
-- Compile and upload the sketch on Arduino IDE
+- Compile and upload the sketch to Arduino IDE
 - Run `dataCollection-v3.py`<br>
 (Syntax: `python dataCollection-v3.py [Port] [Duration]`)
 <h2>Resources</h2>
