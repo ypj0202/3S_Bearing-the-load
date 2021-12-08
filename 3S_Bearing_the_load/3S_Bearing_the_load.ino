@@ -17,7 +17,7 @@ boolean conversionCompleted;
 //Configuration
 int sample_frequency = 20000;
 int prescaler_value = 2;
-int TC_RC_val = 84000000 / prescaler_value / sample_frequency; //Warning!!!!
+int TC_RC_val = 84000000 / prescaler_value / sample_frequency; //Do check if it is still int before upload
 
 void setup()
 {
@@ -78,7 +78,7 @@ void loop()
 {
   if (conversionCompleted)
   {
-    SerialUSB.write((uint8_t *)&sensor_data, 2 * 6);
+    SerialUSB.write((uint8_t *)&sensor_data, 2 * 6); //Write the array to seral interface (2 bytes data per sensor)
     conversionCompleted = false;
   }
 }

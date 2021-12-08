@@ -13,12 +13,12 @@ import sys
 import timeit
 import time
 import os
-# Data input order: Temp, accelerometer1, accelerometer1, microphone1, microphone2, microphone3
+# Data input order: Temp, accelerometer1, accelerometer2, microphone1, microphone2, microphone3
 
 
 def readData(filename, port, duration):
     try:
-        arduino = serial.Serial(port, 0, timeout=0.1)
+        arduino = serial.Serial(port, 0, timeout=0.1) # Define serial port, baud rate and timeout (Baudrate is ignored on SerialUSB)
     except IOError as e:
         print("[Error-DueIO] " + str(e))
         sys.exit(1)
@@ -33,7 +33,7 @@ def readData(filename, port, duration):
         print("[INFO] Collecting data...")
         start = timeit.default_timer()
         while time.time() < runtime:
-            inputData_raw.append(list(arduino.read(2*6)))
+            inputData_raw.append(list(arduino.read(2*6))) # Collect raw data and store in the memory for further processing
         stop = timeit.default_timer()
         csv_writer = csv.writer(file)
         count = len(inputData_raw)
@@ -41,8 +41,9 @@ def readData(filename, port, duration):
             toAppend = []
             index = 0
             while(index < len(i)):
-                raw = i[index+1] << 8 | i[index]
+                raw = i[index+1] << 8 | i[index] # Shift the bits to the right position
                 if index == 0:
+                    # Temperature calculation
                     R1 = 10000
                     c1 = float(1.129252142e-03)
                     c2 = float(2.341083183e-04)
@@ -54,7 +55,7 @@ def readData(filename, port, duration):
                 else:
                     toAppend.append(i[index+1] << 8 | i[index])
                 index += 2
-            csv_writer.writerow(toAppend)
+            csv_writer.writerow(toAppend) # Write processed data to output file
 
         print("[INFO] Collected " + str(count) + " data in " +
               str(round((stop - start), 4)) + " second(s)")
