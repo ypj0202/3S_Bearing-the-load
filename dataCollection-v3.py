@@ -2,8 +2,8 @@
 #  dataCollection-v3.py
 #  Description: A program to collect data from Arduino and save to csv file
 #  Author: Ken Yeh 475496
-#  Date: 02-12-2021
-#  Revision: 3.0
+#  Date: 08-12-2021
+#  Revision: 3.01
 #
 import serial
 import csv
@@ -12,6 +12,7 @@ import math
 import sys
 import timeit
 import time
+import os
 # Data input order: Temp, accelerometer1, accelerometer1, microphone1, microphone2, microphone3
 
 
@@ -55,7 +56,7 @@ def readData(filename, port, duration):
                 index += 2
             csv_writer.writerow(toAppend)
 
-        print("[INFO] Collected: " + str(count) + " data in " +
+        print("[INFO] Collected " + str(count) + " data in " +
               str(round((stop - start), 4)) + " second(s)")
     except Exception as e:
         print("[Error-Data] " + str(e))
@@ -73,4 +74,6 @@ try:
 except Exception as e:
     print("[Error-argv] Format dataCollection-v3.py [Port] [Duration]")
     sys.exit(1)
+print("[INFO] Output file name: " + csv_file_string + "\n[INFO] Output file size: " +
+      str(round(os.path.getsize(csv_file_string)/1024)) + " KB")
 print("[INFO] Program terminated!")
