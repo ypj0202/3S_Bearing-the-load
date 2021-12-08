@@ -1,5 +1,0 @@
-{
-    "sketch": "3S_Bearing_the_load.ino",
-    "board": "arduino:sam:arduino_due_x",
-    "port": "COM6"
-}
