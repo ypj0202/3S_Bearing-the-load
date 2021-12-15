@@ -53,7 +53,7 @@ void setup()
 
   ADC->ADC_IER = ADC_IER_EOC7 | ADC_IER_EOC6 | ADC_IER_EOC5 | ADC_IER_EOC4 | ADC_IER_EOC3 | ADC_IER_EOC2;  // Interrupt on End Of Conversions channel 7, 6 and 5
   NVIC_EnableIRQ(ADC_IRQn);                                                                                // Enable ADC interrupt
-  ADC->ADC_CHER = ADC_CHER_CH7 | ADC_IER_EOC6 | ADC_IER_EOC5 | ADC_IER_EOC4 | ADC_IER_EOC3 | ADC_IER_EOC2; // Enable Channels 7,6,5(A0,A1,A2)
+  ADC->ADC_CHER = ADC_CHER_CH7 | ADC_IER_EOC6 | ADC_IER_EOC5 | ADC_IER_EOC4 | ADC_IER_EOC3 | ADC_IER_EOC2; // Enable Channels 7,6,5,4,3,2(A0,A1,A2,A3,A4,A5)
 }
 
 void ADC_Handler()
