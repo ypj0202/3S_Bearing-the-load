@@ -81,7 +81,7 @@ def readData(port, duration):
             csv_writer.writerow(toAppend)
 
         print("[INFO] Collected " + str(count) + " data in " +
-              str(round((stop - start), 4)) + " second(s)" + " Invalid data: " + str(invalid))
+              str(round((stop - start), 4)) + " second(s)" + " with " + str(invalid) + " invalid data.")
         return filename
     except Exception as e:
         print("[Error-Data] " + str(e))
