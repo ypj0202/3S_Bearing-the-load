@@ -2,9 +2,21 @@
 #  dataCollection-v3.py
 #  Description: A program to collect data from Arduino and save to csv file
 #  Author: Ken Yeh 475496
-#  Date: 16-12-2021
-#  Revision: 3.1.0
+#  Date: 13-01-2021
+#  Revision: 3.1.1
 #
+# GNU LESSER GENERAL PUBLIC LICENSE
+# Copyright (C) 2022 Ken Yeh (P.)
+
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR
+# A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
 import serial
 import csv
 import datetime
@@ -15,13 +27,26 @@ import time
 import os
 import threading
 # Data input order: Temperature, accelerometer1 (Top), accelerometer2(Side), microphone1(Top left), microphone2(Top right), microphone3(bottom)
+inputData_raw = []
 
 
-def countdown(t):
-    while t:
-        print("[INFO] Time left: " + str(t) + "   ", end="\r")
-        time.sleep(1)
-        t -= 1
+
+def countdown(runtime):
+    while time.time() < runtime:
+     if(len(inputData_raw) > 0):
+        raw = (inputData_raw[len(inputData_raw) - 1][1] << 8) | inputData_raw[len(inputData_raw) - 1][0]
+        if(raw > 0 and raw < 1023):
+            R1 = 10000
+            c1 = float(1.129252142e-03)
+            c2 = float(2.341083183e-04)
+            c3 = float(0.8773267909e-07)
+            R2 = R1 * (1023.0 / float(raw) - 1.0)
+            logR2 = math.log(R2)
+            temp = (1.0 / (c1 + c2 * logR2 + c3 * logR2 * logR2 * logR2))
+            print("[INFO] Time left: " + str(runtime - int(time.time())) + " Temp: "+ str(round((temp - 273.15), 1))  + "      ", end="\r")
+        else:
+            print("[INFO] Time left: " + str(runtime - int(time.time())) + " Temp: 0.00" +"   ", end="\r")
+        
 
 
 def readData(port, duration):
@@ -33,17 +58,17 @@ def readData(port, duration):
         sys.exit(1)
 
     try:
-        inputData_raw = []
+        # inputData_raw = []
         print("[INFO] Collecting data...")
         runtime = time.time() + int(duration)
-        x = threading.Thread(target=countdown, args=(int(duration),))
+        x = threading.Thread(target=countdown, args=(int(runtime),))
         x.start()
         start = timeit.default_timer()
         while time.time() < runtime:
             # Collect raw data and store in the memory for further processing
             inputData_raw.append(list(arduino.read(2*6)))
         stop = timeit.default_timer()
-        print("[INFO] Processing data...")
+        print("[INFO] Processing data...                                     ")
         filename = "Sensor_output_" + \
             datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S") + "_" + \
             str(round((stop - start), 4)) + '.csv'
@@ -61,21 +86,9 @@ def readData(port, duration):
             while(index < len(i)):
                 # Shift the bits to the right position
                 raw = i[index+1] << 8 | i[index]
-                if raw > 1023:
-                    raw = 1023
+                if raw > 1023 or raw <= 0:
                     invalid += 1
-                if index == 0:
-                    # Temperature calculation
-                    R1 = 10000
-                    c1 = float(1.129252142e-03)
-                    c2 = float(2.341083183e-04)
-                    c3 = float(0.8773267909e-07)
-                    R2 = R1 * (1023.0 / float(raw) - 1.0)
-                    logR2 = math.log(R2)
-                    temp = (1.0 / (c1 + c2 * logR2 + c3 * logR2 * logR2 * logR2))
-                    toAppend.append(str(temp - 273.15))
-                else:
-                    toAppend.append(i[index+1] << 8 | i[index])
+                toAppend.append(i[index+1] << 8 | i[index])
                 index += 2
             # Write processed data to output file
             csv_writer.writerow(toAppend)
@@ -88,7 +101,7 @@ def readData(port, duration):
         sys.exit(1)
 
 
-print("========== DataCollection.py v3.1.0 BY Ken Yeh ==========")
+print("========== DataCollection.py v3.1.1 BY Ken Yeh ==========")
 try:
     print("[INFO] Program started\n[INFO] Port: " +
           sys.argv[1] + " Duration: " + sys.argv[2] + " second(s)")
